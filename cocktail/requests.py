@@ -10,12 +10,20 @@ class Reqs:
 
     @staticmethod ## check for headers
     def header_check(headers: any = None):
-        headers = {headers} or {}
+        if not headers:
+            headers = {}
+        else:
+            headers = {headers}
+
         return headers
 
     @staticmethod ## check for data {PUT & POST} 
     def data_check(data: any = None):
-        data = {data} or {}
+        if not data:
+            data = {}
+        else:
+            data = {data}
+
         return data
 
     @classmethod ## GET request
