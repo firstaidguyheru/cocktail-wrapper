@@ -30,5 +30,5 @@ class Data:
             ing2 = data['ing2']
             ing3 = data['ing3']
             ing4 = data['ing4']
-            neat_data = f'{instructions}\nIngredients:\n{ing1}, {ing2}, {ing3}, {ing4}'
+            neat_data = f'{instructions}\nIngredients: {ing1}, {ing2}, {ing3}, {ing4}'
             return neat_data
