@@ -35,10 +35,10 @@ class Data:
             elif ingredient:
                 # Returns a dict information on an ingredient
 
-                ingr_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?f={query}'
+                ingr_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?i={query}'
                 data_ingr = await Reqs.get(ingr_url)
 
-                if 'strAlcohol' in data_ingr['ingredients'][0]:
+                if data_ingr['ingredients'][0]['strAlcohol'] == 'Yes':
                     ingr_dict = {
                         'ingredientData': data_ingr['ingredients'][0]['strDescription'],
                         'Alcoholic': True
@@ -87,13 +87,13 @@ class Data:
             elif ingredient:
                 # Returns a string of information on a given ingredient
 
-                ingr_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?f={query}'
+                ingr_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?i={query}'
                 data_ingr = await Reqs.get(ingr_url)
 
-                if 'strAlcohol' in data_ingr['ingredients'][0]:
-                    alcoholic = 'Ingredient is alcoholic'
+                if data_ingr['ingredients'][0]['strAlcohol'] == 'Yes':
+                    alcoholic = 'Ingredient is alcoholic.'
                 else:
-                    alcoholic = "Ingredient isn't alcoholic"
+                    alcoholic = "Ingredient isn't alcoholic."
 
                 description = data_ingr['ingredients'][0]['strDescription']
                 string = f'{description} {alcoholic}'
