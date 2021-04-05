@@ -1,4 +1,5 @@
 import aiohttp 
+from aiohttp import client_exceptions as errs
 
 class Reqs:
     """Methods to handle requests"""
@@ -31,11 +32,18 @@ class Reqs:
         headers = Reqs.header_check(headers)
         ses = Reqs.ses()
         async with ses.get(url, headers=headers) as r:
-            if r.status in range(200, 299):
-                data = await r.json()
-                return data
-            else:
-                print('Endpoint Response: '+r.status)
+            try:
+                if r.status in range(200, 299):
+                    data = await r.json()
+                    return data
+                else:
+                    print('Endpoint Response: '+r.status)
+            except errs.ContentTypeError:
+                if r.status in range(200, 299):
+                    data = await r.json(content_type="text/html")
+                    return data
+                else:
+                    print('Endpoint Response: '+r.status)
         
         @classmethod ## POST request
         async def post(self, url: str, *, headers: any = None, data: any = None):
@@ -43,21 +51,17 @@ class Reqs:
             data = Reqs.data_check(data)
             ses = Reqs.ses()
             async with ses.post(url, headers=headers, data=data) as r:
-                if r.status in range(200, 299):
-                    data = await r.json()
-                    return data
-                else:
-                    print('Endpoint Response: '+r.status)
+                try:
+                    if r.status in range(200, 299):
+                        data = await r.json()
+                        return data
+                    else:
+                        print('Endpoint Response: '+r.status)
+                except errs.ContentTypeError:
+                    if r.status in range(200, 299):
+                        data = await r.json(content_type="text/html")
+                        return data
+                    else:
+                        print('Endpoint Response: '+r.status)
 
-        @classmethod ## PUT request
-        async def put(self, url: str, *, headers: any = None, data: any = None):
-            headers = Reqs.header_check(headers)
-            data = Reqs.data_check(data)
-            ses = Reqs.ses()
-            async with ses.put(url, headers=headers, data=data) as r:
-                if r.status in range(200, 299):
-                    data = await r.json()
-                    return data
-                else:
-                    print('Endpoint Response: '+r.status)
 
