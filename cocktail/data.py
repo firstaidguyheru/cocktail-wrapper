@@ -78,5 +78,6 @@ class Data:
                 string = f'{instructions}\nIngredients: {ing1}, {ing2}, {ing3}, {ing4}'
                 return string
 
-            
+        else:
+            ('That grouping of arguments is not supported.')
         
