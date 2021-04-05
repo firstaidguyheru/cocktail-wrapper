@@ -6,7 +6,7 @@ class Data:
     """
 
     @staticmethod
-    async def recipe(*, query, key: str = None, dict: bool = None, first_letter_only: bool = None, ingredient: bool = None): 
+    async def recipe(*, query: str = None, key: str = None, dict: bool = None, first_letter_only: bool = None, ingredient: bool = None, id: str = None): 
         # Key is only to be used if you Support them on patreon via https://www.patreon.com/thedatadb
         # First letter bool gives a list of names cocktails given the first letter
 
@@ -14,6 +14,7 @@ class Data:
         first_letter_only = first_letter_only or False
         ingredient = ingredient or False
         key = key or 1
+        query = query or id
 
         if dict:
             if first_letter_only:
