@@ -6,12 +6,13 @@ class Data:
     """
 
     @staticmethod
-    async def recipe(*, query, key: str = None, dict: bool = None, first_letter_only: bool = None): 
+    async def recipe(*, query, key: str = None, dict: bool = None, first_letter_only: bool = None, ingredient: bool = None): 
         # Key is only to be used if you Support them on patreon via https://www.patreon.com/thedatadb
         # First letter bool gives a list of names cocktails given the first letter
 
         dict = dict or False
         first_letter_only = first_letter_only or False
+        ingredient = ingredient or False
         key = key or 1
 
         if dict:
@@ -30,6 +31,25 @@ class Data:
                 }
                 print("Use `await recipe('drink from list')`")
                 return names_data_dict
+            
+            elif ingredient:
+                # Returns a dict information on an ingredient
+
+                ingr_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?f={query}'
+                data_ingr = await Reqs.get(ingr_url)
+
+                if 'strAlcohol' in data_ingr['ingredients'][0]:
+                    ingr_dict = {
+                        'ingredientData': data_ingr['ingredients'][0]['strDescription'],
+                        'Alcoholic': True
+                    }
+
+                else:
+                    ingr_dict = {
+                        'ingredientData': data_ingr['ingredients'][0]['strDescription'],
+                        'Alcoholic': False
+                    }
+                return ingr_dict
 
             else:
                 # Ingredients only goes up to 4
@@ -63,6 +83,22 @@ class Data:
                 string = f'Names: {cocktail1}, {cocktail2}, {cocktail3}, {cocktail4}, {cocktail5}'
                 print("Use `await recipe('drink from list')`")
                 return string
+            
+            elif ingredient:
+                # Returns a string of information on a given ingredient
+
+                ingr_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?f={query}'
+                data_ingr = await Reqs.get(ingr_url)
+
+                if 'strAlcohol' in data_ingr['ingredients'][0]:
+                    alcoholic = 'Ingredient is alcoholic'
+                else:
+                    alcoholic = "Ingredient isn't alcoholic"
+
+                description = data_ingr['ingredients'][0]['strDescription']
+                string = f'{description} {alcoholic}'
+                return string
+
             else:
                 # Returns a string with instructions and ingredients
                 
