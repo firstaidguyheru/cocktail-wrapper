@@ -79,5 +79,5 @@ class Data:
                 return string
 
         else:
-            ('That grouping of arguments is not supported.')
+            print('That grouping of arguments is not supported.')
         
