@@ -30,7 +30,7 @@ class Data:
                     'cocktail4': data_names['drinks'][3]['strDrink'],
                     'cocktail5': data_names['drinks'][4]['strDrink'],
                 }
-                print("Use `await recipe('drink from list')`")
+                print("Use `await search(query='drink from list')`")
                 return names_data_dict
             
             elif ingredient:
@@ -85,7 +85,7 @@ class Data:
                 names = ', '.join(names_list)
                 string = f'Names: {names}'
                 
-                print("Use `await recipe('drink from list')`")
+                print("Use `await search(query='drink from list')`")
                 return string
             
             elif ingredient:
