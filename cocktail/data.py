@@ -74,14 +74,17 @@ class Data:
                 
                 names_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?f={query}'
                 data_names = await Reqs.get(names_url)
-
-                cocktail1 = data_names['drinks'][0]['strDrink']
-                cocktail2 = data_names['drinks'][1]['strDrink']
-                cocktail3 = data_names['drinks'][2]['strDrink']
-                cocktail4 = data_names['drinks'][3]['strDrink']
-                cocktail5 = data_names['drinks'][4]['strDrink']
-
-                string = f'Names: {cocktail1}, {cocktail2}, {cocktail3}, {cocktail4}, {cocktail5}'
+                
+                names_list = {
+                    data_names['drinks'][0]['strDrink'],
+                    data_names['drinks'][1]['strDrink'],
+                    data_names['drinks'][2]['strDrink'],
+                    data_names['drinks'][3]['strDrink'],
+                    data_names['drinks'][4]['strDrink']
+                }
+                names = ', '.join(names_list)
+                string = f'Names: {names}'
+                
                 print("Use `await recipe('drink from list')`")
                 return string
             
