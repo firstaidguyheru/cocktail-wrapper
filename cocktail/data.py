@@ -75,13 +75,13 @@ class Data:
                 names_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?f={query}'
                 data_names = await Reqs.get(names_url)
                 
-                names_list = {
+                names_list = [
                     data_names['drinks'][0]['strDrink'],
                     data_names['drinks'][1]['strDrink'],
                     data_names['drinks'][2]['strDrink'],
                     data_names['drinks'][3]['strDrink'],
                     data_names['drinks'][4]['strDrink']
-                }
+                ]
                 names = ', '.join(names_list)
                 string = f'Names: {names}'
                 
@@ -111,11 +111,14 @@ class Data:
 
                 data = data_dict
                 instructions = data['instructions']
-                ing1 = data['ing1']
-                ing2 = data['ing2']
-                ing3 = data['ing3']
-                ing4 = data['ing4']
-                string = f'{instructions}\nIngredients: {ing1}, {ing2}, {ing3}, {ing4}'
+                ingr_list = [
+                    data['ing1'],
+                    data['ing2'],
+                    data['ing3'],
+                    data['ing4']
+                ]
+                ingrs = ', '.join(ingr_list)
+                string = f'{instructions} Ingredients: {ingrs}'
                 return string
 
         else:
