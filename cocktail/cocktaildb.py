@@ -1,5 +1,5 @@
 from requests import Reqs
-
+from functools import lru_cache as cached
     
 """Function responsible for getting data from https://www.thecocktaildb.com/api.php"""
     
@@ -7,6 +7,7 @@ class UnexpectedArgs(Exception):
     def __init__(self, message):
         super(UnexpectedArgs, self).__init__(message)
 
+@cached
 async def search(*, query: str = None, key: str = None, dict: bool = False, first_letter_only: bool = False, ingredient: bool = False, id: any = None): 
     # Key is only to be used if you Support them on patreon via https://www.patreon.com/thedatadb
     # First letter bool gives a list of names cocktails given the first letter
@@ -30,7 +31,10 @@ async def search(*, query: str = None, key: str = None, dict: bool = False, firs
             }
             print("Use `await search(query='drink from list')`")
             return names_data_dict
-        
+
+        elif query == id and id == query:
+            raise UnexpectedArgs('That grouping of arguments is not supported.')
+
         elif ingredient:
             # Returns a dict information on an ingredient
 
@@ -49,8 +53,8 @@ async def search(*, query: str = None, key: str = None, dict: bool = False, firs
                     'Alcoholic': False
                 }
             return ingr_dict
-
-        else:
+        
+        elif query:
             # Ingredients only goes up to 4
 
             url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?s={query}'
@@ -64,6 +68,9 @@ async def search(*, query: str = None, key: str = None, dict: bool = False, firs
                 'ing4': data['drinks'][0]['strIngredient4']
             }
             return data_dict
+        
+        else:
+            raise UnexpectedArgs('That grouping of arguments is not supported.')
 
     elif not dict:
         if first_letter_only:
@@ -84,7 +91,10 @@ async def search(*, query: str = None, key: str = None, dict: bool = False, firs
             
             print("Use `await search(query='drink from list')`")
             return string
-        
+
+        elif query == id and id == query:
+            raise UnexpectedArgs('That grouping of arguments is not supported.')
+
         elif ingredient:
             # Returns a string of information on a given ingredient
 
@@ -100,7 +110,7 @@ async def search(*, query: str = None, key: str = None, dict: bool = False, firs
             string = f'{description}. {alcoholic}.'
             return string
 
-        else:
+        elif query:
             # Returns a string with instructions and ingredients
             
             url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?s={query}'
@@ -126,7 +136,5 @@ async def search(*, query: str = None, key: str = None, dict: bool = False, firs
             string = f'{instructions}. Ingredients: {ingrs}.'
             return string
 
-    elif query and id:
-        raise UnexpectedArgs('That grouping of arguments is not supported.')
-    else:
-        raise UnexpectedArgs('That grouping of arguments is not supported.')
+        else:
+            raise UnexpectedArgs('That grouping of arguments is not supported.')
