@@ -68,7 +68,6 @@ async def search(*, query: str = None, key: str = None, dict: bool = None, first
             }
             return data_dict
 
-    
     elif not dict:
         if first_letter_only:
             # Returns 5 cocktail names in a string that starts with the one-letter-query
@@ -110,7 +109,6 @@ async def search(*, query: str = None, key: str = None, dict: bool = None, first
             url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?f={query}'
             data = await Reqs.get(url)
 
-            data = data_dict
             instructions = data['instructions']
             ingr_list = [
                 data['ing1'],
@@ -126,5 +124,3 @@ async def search(*, query: str = None, key: str = None, dict: bool = None, first
         raise UnexpectedArgs('That grouping of arguments is not supported.')
     else:
         raise UnexpectedArgs('That grouping of arguments is not supported.')
-    
-        
