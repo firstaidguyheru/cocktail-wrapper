@@ -106,9 +106,18 @@ async def search(*, query: str = None, key: str = None, dict: bool = None, first
         else:
             # Returns a string with instructions and ingredients
             
-            url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?f={query}'
+            url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?s={query}'
             data = await Reqs.get(url)
 
+            data_dict = {
+                'instructions': data['drinks'][0]['strInstructions'],
+                'ing1': data['drinks'][0]['strIngredient1'], 
+                'ing2': data['drinks'][0]['strIngredient2'], 
+                'ing3': data['drinks'][0]['strIngredient3'], 
+                'ing4': data['drinks'][0]['strIngredient4']
+            }
+            data = data_dict
+            
             instructions = data['instructions']
             ingr_list = [
                 data['ing1'],
