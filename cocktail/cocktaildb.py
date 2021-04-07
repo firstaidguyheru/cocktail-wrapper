@@ -7,13 +7,10 @@ class UnexpectedArgs(Exception):
     def __init__(self, message):
         super(UnexpectedArgs, self).__init__(message)
 
-async def search(*, query: str = None, key: str = None, dict: bool = None, first_letter_only: bool = None, ingredient: bool = None, id: str = None): 
+async def search(*, query: str = None, key: str = None, dict: bool = False, first_letter_only: bool = False, ingredient: bool = False, id: any = None): 
     # Key is only to be used if you Support them on patreon via https://www.patreon.com/thedatadb
     # First letter bool gives a list of names cocktails given the first letter
 
-    dict = dict or False
-    first_letter_only = first_letter_only or False
-    ingredient = ingredient or False
     key = key or 1
     query = query or id
 
@@ -82,8 +79,8 @@ async def search(*, query: str = None, key: str = None, dict: bool = None, first
                 data_names['drinks'][3]['strDrink'],
                 data_names['drinks'][4]['strDrink']
             ]
-            names = ', '.join(names_list)
-            string = f'Names: {names}'
+            names = ', '.join([not_none for not_none in list(map(str, names_list)) if not not_none == 'null'])
+            string = f'Names: {names}.'
             
             print("Use `await search(query='drink from list')`")
             return string
@@ -100,7 +97,7 @@ async def search(*, query: str = None, key: str = None, dict: bool = None, first
                 alcoholic = "Ingredient isn't alcoholic."
 
             description = data_ingr['ingredients'][0]['strDescription']
-            string = f'{description} {alcoholic}'
+            string = f'{description}. {alcoholic}.'
             return string
 
         else:
@@ -117,7 +114,7 @@ async def search(*, query: str = None, key: str = None, dict: bool = None, first
                 'ing4': data['drinks'][0]['strIngredient4']
             }
             data = data_dict
-            
+
             instructions = data['instructions']
             ingr_list = [
                 data['ing1'],
@@ -125,8 +122,8 @@ async def search(*, query: str = None, key: str = None, dict: bool = None, first
                 data['ing3'],
                 data['ing4']
             ]
-            ingrs = ', '.join(ingr_list)
-            string = f'{instructions} Ingredients: {ingrs}'
+            ingrs = ', '.join([not_none for not_none in list(map(str, ingr_list)) if not not_none == 'null'])
+            string = f'{instructions}. Ingredients: {ingrs}.'
             return string
 
     elif query and id:
