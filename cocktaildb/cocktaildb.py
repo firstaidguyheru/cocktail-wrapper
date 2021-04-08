@@ -1,5 +1,5 @@
 from requests import Reqs
-from cache import AsyncLRU as cached
+
 
 """Function responsible for getting data from https://www.thecocktaildb.com/api.php"""
     
@@ -7,7 +7,6 @@ class UnexpectedArgs(Exception):
     def __init__(self, message):
         super(UnexpectedArgs, self).__init__(message)
 
-@cached(maxsize=128)
 async def search(*, query: str = None,  id: any = None, key: str = None, dict: bool = False, first_letter_only: bool = False, ingredient: bool = False, random: bool = False): 
     # Key is only to be used if you Support them on patreon via https://www.patreon.com/thedatadb
     # First letter bool gives a list of names cocktails given the first letter
@@ -100,25 +99,23 @@ async def search(*, query: str = None,  id: any = None, key: str = None, dict: b
         elif random:
             # Returns random cocktail info in astring, ingredients only go up to 4
 
-            random_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?s={query}'
-            data_random = await Reqs.get(random_url)
-            data = data_random
+            random_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/random.php'
+            data_random = await Reqs.get(random_url) 
 
-            data_random_dict = {
-                'instructions': data['drinks'][0]['strInstructions'],
-                'ing1': data['drinks'][0]['strIngredient1'], 
-                'ing2': data['drinks'][0]['strIngredient2'], 
-                'ing3': data['drinks'][0]['strIngredient3'], 
-                'ing4': data['drinks'][0]['strIngredient4']
+            data_dict = {
+                'instructions': data_random['drinks'][0]['strInstructions'],
+                'ing1': data_random['drinks'][0]['strIngredient1'], 
+                'ing2': data_random['drinks'][0]['strIngredient2'], 
+                'ing3': data_random['drinks'][0]['strIngredient3'], 
+                'ing4': data_random['drinks'][0]['strIngredient4']
             }
-            data = data_random_dict
 
-            instructions = data['instructions']
+            instructions = data_dict['instructions']
             ingr_list = [
-                data['ing1'],
-                data['ing2'],
-                data['ing3'],
-                data['ing4']
+                data_dict['ing1'],
+                data_dict['ing2'],
+                data_dict['ing3'],
+                data_dict['ing4']
             ]
             ingrs = ', '.join([not_none for not_none in list(map(str, ingr_list)) if not not_none == 'null'])
             string = f'{instructions}. Ingredients: {ingrs}.'
