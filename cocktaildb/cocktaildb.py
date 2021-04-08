@@ -7,7 +7,7 @@ class UnexpectedArgs(Exception):
     def __init__(self, message):
         super(UnexpectedArgs, self).__init__(message)
 
-@cached
+@cached(maxsize=128)
 async def search(*, query: str = None,  id: any = None, key: str = None, dict: bool = False, first_letter_only: bool = False, ingredient: bool = False, random: bool = False): 
     # Key is only to be used if you Support them on patreon via https://www.patreon.com/thedatadb
     # First letter bool gives a list of names cocktails given the first letter
