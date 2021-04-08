@@ -1,14 +1,13 @@
 from requests import Reqs
-from functools import lru_cache as cached
-    
+
+
 """Function responsible for getting data from https://www.thecocktaildb.com/api.php"""
     
 class UnexpectedArgs(Exception):
     def __init__(self, message):
         super(UnexpectedArgs, self).__init__(message)
 
-@cached
-async def search(*, query: str = None, key: str = None, dict: bool = False, first_letter_only: bool = False, ingredient: bool = False, id: any = None): 
+async def search(*, query: str = None,  id: any = None, key: str = None, dict: bool = False, first_letter_only: bool = False, ingredient: bool = False, random: bool = False): 
     # Key is only to be used if you Support them on patreon via https://www.patreon.com/thedatadb
     # First letter bool gives a list of names cocktails given the first letter
 
@@ -16,7 +15,27 @@ async def search(*, query: str = None, key: str = None, dict: bool = False, firs
     query = query or id
 
     if dict:
-        if first_letter_only:
+
+        if random and query \
+            or id and random:
+            raise UnexpectedArgs('That grouping of arguments is not supported.')
+        
+        elif random:
+            # Random cocktail dict, ingredients only go up to 4
+
+            random_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/random.php'
+            data_random = await Reqs.get(random_url) 
+
+            data_dict = {
+                'instructions': data_random['drinks'][0]['strInstructions'],
+                'ing1': data_random['drinks'][0]['strIngredient1'], 
+                'ing2': data_random['drinks'][0]['strIngredient2'], 
+                'ing3': data_random['drinks'][0]['strIngredient3'], 
+                'ing4': data_random['drinks'][0]['strIngredient4']
+            }
+            return data_dict
+
+        elif first_letter_only:
             # Returns a dict with 5 cocktail names that starts with the one-letter-query
 
             names_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/search.php?f={query}'
@@ -73,6 +92,35 @@ async def search(*, query: str = None, key: str = None, dict: bool = False, firs
             raise UnexpectedArgs('That grouping of arguments is not supported.')
 
     elif not dict:
+        if random and query \
+            or id and random:
+            raise UnexpectedArgs('That grouping of arguments is not supported.')
+            
+        elif random:
+            # Returns random cocktail info in astring, ingredients only go up to 4
+
+            random_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/random.php'
+            data_random = await Reqs.get(random_url) 
+
+            data_dict = {
+                'instructions': data_random['drinks'][0]['strInstructions'],
+                'ing1': data_random['drinks'][0]['strIngredient1'], 
+                'ing2': data_random['drinks'][0]['strIngredient2'], 
+                'ing3': data_random['drinks'][0]['strIngredient3'], 
+                'ing4': data_random['drinks'][0]['strIngredient4']
+            }
+
+            instructions = data_dict['instructions']
+            ingr_list = [
+                data_dict['ing1'],
+                data_dict['ing2'],
+                data_dict['ing3'],
+                data_dict['ing4']
+            ]
+            ingrs = ', '.join([not_none for not_none in list(map(str, ingr_list)) if not not_none == 'null'])
+            string = f'{instructions}. Ingredients: {ingrs}.'
+            return string
+
         if first_letter_only:
             # Returns 5 cocktail names in a string that starts with the one-letter-query
             

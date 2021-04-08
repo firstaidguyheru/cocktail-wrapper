@@ -1,6 +1,10 @@
 import aiohttp 
 from aiohttp import client_exceptions as errs
 
+class BadResponse(Exception):
+    def __init__(self, message):
+        super(BadResponse, self).__init__(message)
+
 class Reqs:
     ses = aiohttp.ClientSession()
     """Methods to handle requests"""
@@ -36,13 +40,13 @@ class Reqs:
                     data = await r.json()
                     return data
                 else:
-                    print('Endpoint Response: '+r.status)
+                    raise BadResponse(r.status)
             except errs.ContentTypeError:
                 if r.status in range(200, 299):
                     data = await r.json(content_type="text/html")
                     return data
                 else:
-                    print('Endpoint Response: '+r.status)
+                    raise BadResponse(r.status)
     
     @classmethod ## POST request
     async def post(self, url: str, *, headers: any = None, data: any = None):
@@ -55,10 +59,10 @@ class Reqs:
                     data = await r.json()
                     return data
                 else:
-                    print('Endpoint Response: '+r.status)
+                    raise BadResponse(r.status)
             except errs.ContentTypeError:
                 if r.status in range(200, 299):
                     data = await r.json(content_type="text/html")
                     return data
                 else:
-                    print('Endpoint Response: '+r.status)
+                    raise BadResponse(r.status)
