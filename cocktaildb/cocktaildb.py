@@ -23,10 +23,20 @@ async def categories():
 async def glasses():
 	# Returns a list of categories 
 
-	category_url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list'
+	category_url = 'www.thecocktaildb.com/api/json/v1/1/list.php?g=list'
 	data_categories = await Reqs.get(category_url)
 	
 	l = [category['strGlass'] for category in data_categories['drinks']]
+
+	return l
+
+async def ingredients():
+	# Returns a list of categories 
+
+	category_url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list'
+	data_categories = await Reqs.get(category_url)
+	
+	l = [category['strIngredient1'] for category in data_categories['drinks']]
 
 	return l
 
