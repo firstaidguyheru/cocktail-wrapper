@@ -10,6 +10,36 @@ class UnsubscriptableKey(Exception):
 	def __init__(self, message):
 		super(UnsubscriptableKey, self).__init__(message)
 
+async def categories():
+	# Returns a list of categories 
+
+	category_url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list'
+	data_categories = await Reqs.get(category_url)
+	
+	l = [category['strCategory'] for category in data_categories['drinks']]
+
+	return l
+
+async def glasses():
+	# Returns a list of glasses
+
+	category_url = 'www.thecocktaildb.com/api/json/v1/1/list.php?g=list'
+	data_categories = await Reqs.get(category_url)
+	
+	l = [category['strGlass'] for category in data_categories['drinks']]
+
+	return l
+
+async def ingredients():
+	# Returns a list of ingredients
+
+	category_url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list'
+	data_categories = await Reqs.get(category_url)
+	
+	l = [category['strIngredient1'] for category in data_categories['drinks']]
+
+	return l
+
 async def search(*, query: str = None, id: any = None, key: str = None, category: str = None, dict: bool = False, first_letter_only: bool = False, ingredient: bool = False, random: bool = False): 
 	"""
 	Key is only to be used if you Support them on patreon via https://www.patreon.com/thedatadb
