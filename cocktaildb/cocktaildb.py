@@ -1,4 +1,4 @@
-from reqs import Reqs
+from .reqs import Reqs
 
 """Function responsible for getting data from https://www.thecocktaildb.com/api.php"""
 	
