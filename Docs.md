@@ -9,7 +9,7 @@ Parameters include query, id, key, category, dict: bool, first_letter_only: bool
 All of which default to either None or False.
 
 Lists of categories, ingredients etc. that may appear:
-```
+```python
 import cocktaildb
 
 # This is in literally a list, not in the form of a dict or string
