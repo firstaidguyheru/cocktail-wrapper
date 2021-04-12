@@ -11,7 +11,7 @@ setuptools.setup (
     author='clvrk',
     author_email="herufromstatefarm@gmail.com",
     url="https://github.com/clvrk/cocktail-wrapper",
-    version='1.0.3',
+    version='1.0.5',
     packages=['cocktaildb'],
     python_requires=">= 3.6",
     include_package_data=True,
