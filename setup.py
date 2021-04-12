@@ -3,6 +3,8 @@ import setuptools
 with open("requirements.txt", "r") as f:
     requirements = f.readlines()
 
+with open("Docs.md", "r") as df:
+    docs = df.readlines()
 
 setuptools.setup (
     name='cocktail-wrapper',
@@ -15,7 +17,7 @@ setuptools.setup (
     include_package_data=True,
     install_requires=requirements,
     description="An unofficial asynchronous API wrapper for thecocktaildb.com.",
-    long_description=None,
+    long_description=docs,
     long_description_content_type="text/markdown",
     keywords="api wrapper food cocktails asynchronous library free",
     classifiers = (
