@@ -4,7 +4,7 @@ with open("requirements.txt", "r") as f:
     requirements = f.readlines()
 
 with open("Docs.md", "r") as df:
-    docs = df.readlines()
+    docs = df.read()
 
 setuptools.setup (
     name='cocktail-wrapper',
@@ -20,13 +20,13 @@ setuptools.setup (
     long_description=docs,
     long_description_content_type="text/markdown",
     keywords="api wrapper food cocktails asynchronous library free",
-    classifiers = (
+    classifiers = [
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Natural Language :: English",
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
-    ),
+    ],
     project_urls = {
         'Funding': 'https://ko-fi.com/foodbot',
         'Support': 'https://discord.gg/csUnYsr',
