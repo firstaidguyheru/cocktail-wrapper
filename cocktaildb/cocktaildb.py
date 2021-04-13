@@ -190,7 +190,7 @@ async def search(*, query: str = None, id: any = None, key: str = None, category
 				alcoholic = "Ingredient isn't alcoholic."
 
 			description = data_ingr['ingredients'][0]['strDescription']
-			string = f'{description}. {alcoholic}.'
+			string = f'{description} {alcoholic}.'
 			return string
 
 		elif query:
@@ -216,7 +216,7 @@ async def search(*, query: str = None, id: any = None, key: str = None, category
 				data['ing4']
 			]
 			ingrs = ', '.join([not_none for not_none in list(map(str, ingr_list)) if not not_none == 'null'])
-			string = f'{instructions}. Ingredients: {ingrs}.'
+			string = f'{instructions} Ingredients: {ingrs}.'
 			return string
 
 		else:
