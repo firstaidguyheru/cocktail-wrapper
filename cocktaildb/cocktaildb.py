@@ -21,7 +21,7 @@ async def categories(key: str = None):
 
 	return l
 
-async def glasses():
+async def glasses(key: str = None):
 	# Returns a list of glasses
 
 	key = key or 1
@@ -32,7 +32,7 @@ async def glasses():
 
 	return l
 
-async def ingredients():
+async def ingredients(key: str = None):
 	# Returns a list of ingredients
 
 	key = key or 1
