@@ -10,10 +10,11 @@ class UnsubscriptableKey(Exception):
 	def __init__(self, message):
 		super(UnsubscriptableKey, self).__init__(message)
 
-async def categories():
+async def categories(key: str = None):
 	# Returns a list of categories 
 
-	category_url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list'
+	key = key or 1
+	category_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/list.php?c=list'
 	data_categories = await Reqs.get(category_url)
 	
 	l = [categories['strCategory'] for categories in data_categories['drinks']]
@@ -23,6 +24,7 @@ async def categories():
 async def glasses():
 	# Returns a list of glasses
 
+	key = key or 1
 	category_url = 'www.thecocktaildb.com/api/json/v1/1/list.php?g=list'
 	data_glasses = await Reqs.get(category_url)
 	
@@ -33,6 +35,7 @@ async def glasses():
 async def ingredients():
 	# Returns a list of ingredients
 
+	key = key or 1
 	ingrs_url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list'
 	data_ingrs = await Reqs.get(ingrs_url)
 	
