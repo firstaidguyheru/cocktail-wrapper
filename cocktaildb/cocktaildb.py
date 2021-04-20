@@ -25,7 +25,7 @@ async def glasses(key: str = None):
 	# Returns a list of glasses
 
 	key = key or 1
-	category_url = 'www.thecocktaildb.com/api/json/v1/1/list.php?g=list'
+	category_url = f'www.thecocktaildb.com/api/json/v1/{key}/list.php?g=list'
 	data_glasses = await Reqs.get(category_url)
 	
 	l = [glasses['strGlass'] for glasses in data_glasses['drinks']]
@@ -36,7 +36,7 @@ async def ingredients(key: str = None):
 	# Returns a list of ingredients
 
 	key = key or 1
-	ingrs_url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list'
+	ingrs_url = f'https://www.thecocktaildb.com/api/json/v1/{key}/list.php?i=list'
 	data_ingrs = await Reqs.get(ingrs_url)
 	
 	l = [ingrs['strIngredient1'] for ingrs in data_ingrs['drinks']]
